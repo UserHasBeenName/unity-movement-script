@@ -9,13 +9,12 @@ public class PlayerController : MonoBehaviour
     public float speed;
     public float gravity;
     [Header("Controls")]
-    public KeyCode i_forward;
-    public KeyCode i_left;
-    public KeyCode i_backward;
-    public KeyCode i_right;
+    public KeyCode buttonForward;
+    public KeyCode buttonLeft;
+    public KeyCode buttonBackward;
+    public KeyCode buttonRight;
     [Header("Camera Options")]
     public Camera playerCamera;
-    public GameObject cameraStabiliser;
     public float cameraSensitivity;
 
     Rigidbody playerRigidbody;
@@ -31,7 +30,7 @@ public class PlayerController : MonoBehaviour
     }
 
     bool IsGrounded() {
-        // return Physics.Raycast(transform.position, -Vector3.up, dist); 
+        // return Physics.Raycast(transform.position, -Vector3.up, dist);
         return true;
     }
 
@@ -43,17 +42,31 @@ public class PlayerController : MonoBehaviour
         // } else {
         //     playerRigidbody.velocity = new Vector3(Input.GetAxisRaw("Horizontal"), -gravity, Input.GetAxisRaw("Vertical")) * speed;
         // }
-        if (Input.GetKeyDown(i_forward)) {
-            player.transform.position = transform.forward;
+        // if (Input.GetKey(buttonForward)) {
+        //     Debug.Log(player.transform.rotation);
+        //     player.transform.position += transform.forward * speed * Time.deltaTime;
+        //     // playerRigidbody.velocity = transform.forward * speed * Time.deltaTime;
+        // }
+        // if (Input.GetKey(buttonLeft)) {
+        //     player.transform.position -= transform.right * speed * Time.deltaTime;
+        // }
+        // if (Input.GetKey(buttonBackward)) {
+        //     player.transform.position -= transform.forward * speed * Time.deltaTime;
+        // }
+        // if (Input.GetKey(buttonRight)) {
+        //     player.transform.position += transform.right * speed * Time.deltaTime;
+        // }        
+        if (Input.GetKey(buttonForward)) {
+            player.transform.Translate(Vector3.forward * speed * Time.deltaTime, Space.Self);
         }
-        if (Input.GetKeyDown(i_left)) {
-            player.transform.position = -transform.right;
+        if (Input.GetKey(buttonLeft)) {
+            player.transform.Translate(Vector3.left * speed * Time.deltaTime, Space.Self);
         }
-        if (Input.GetKeyDown(i_backward)) {
-            player.transform.position = -transform.forward;
+        if (Input.GetKey(buttonBackward)) {
+            player.transform.Translate(Vector3.back * speed * Time.deltaTime, Space.Self);
         }
-        if (Input.GetKeyDown(i_right)) {
-            player.transform.position = transform.right;
+        if (Input.GetKey(buttonRight)) {
+            player.transform.Translate(Vector3.right * speed * Time.deltaTime, Space.Self);
         }
     }
     void Update() {
@@ -61,11 +74,9 @@ public class PlayerController : MonoBehaviour
         float verticalInput = cameraSensitivity * Input.GetAxis("Mouse Y");
         void MouseLook() {
             if ((horizontalInput != 0) || (verticalInput != 0)) {
-                cameraStabiliser.transform.Rotate(new Vector3(0, horizontalInput, 0));
+                // cameraStabiliser.transform.Rotate(new Vector3(0, horizontalInput, 0));
                 player.transform.Rotate(new Vector3(0, horizontalInput, 0));
                 playerCamera.transform.Rotate(new Vector3(-verticalInput, 0, 0));
-            } else {
-                Debug.Log("No cam movement");
             }
         }
         MouseLook();
