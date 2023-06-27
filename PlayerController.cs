@@ -2,6 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// Hierarchy should look like this:
+// Manager (empty object)
+//     Player (Capsule with rigidbody)
+//         Camera (Player Camera)
+
 public class PlayerController : MonoBehaviour
 {
     [Header("Player")]
